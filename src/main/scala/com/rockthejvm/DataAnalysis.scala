@@ -53,7 +53,9 @@ object DataAnalysis {
   }
 
   //Calculates mode of all elements in the list
-  //def Mode
+  def mode(l:List[Int]):Int={
+    l.head
+  }
 
   //Calculates range of all elements in the list
   def range(l:List[Int]):Int={
