@@ -18,7 +18,7 @@ object Main {
       val choice = checkInput(input)
 
       //Test list
-      val l:List[Int]=List(1,5,3,8,1,10,19)
+      val l:List[Int]=List(1,5,3,8,1,10,19,20)
 
       choice match {
         case Some(1) => {

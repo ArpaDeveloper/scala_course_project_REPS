@@ -4,6 +4,9 @@ import scala.annotation.tailrec
 
 object DataAnalysis {
 
+  //Add error handling + some type stuff like prob can't have int on all
+
+
   //Calculates sum of all elements in the list
   def sum(l:List[Int]):Int={
     if(l.isEmpty) 0
@@ -34,27 +37,47 @@ object DataAnalysis {
 
 
   //Calculates mean of all elements in the list
-  def mean(l:List[Int]):Int={
+  def mean(l:List[Int]):Float={
     val s=sum(l)
     if(l.isEmpty) 0
     else s/l.size
   }
 
   //Calculates median of all elements in the list
-  def median(l:List[Int]):Int={
+  @tailrec
+  def median(l:List[Int]):Float={
     if(l.isEmpty) 0
     //Sort the list
     val sorted_l=insertionSort(l)
     //If even average of the two numbers in middle
-    median(l.tail)
-    //Else the number in middle
-    //Has to be fixed
-
+    if(l.size==1){ //If there is one return that
+      l.head
+    }
+    else if(l.size==2){ //If there is two put them together and get avg
+      (l.head+l.last)/2
+    }
+    else{ //Recurse the list without first and last elements
+      median(sorted_l.tail.init)
+    }
   }
 
+  //FIX MODE
   //Calculates mode of all elements in the list
   def mode(l:List[Int]):Int={
-    l.head
+    if(l.isEmpty) 0
+    else {
+      val sorted_l=insertionSort(l)
+      countFreq(sorted_l,0,0)
+    }
+  }
+
+  //Method to count freq of sorted list
+  def countFreq(l:List[Int],current_freq:Int,count:Int):Int={
+    if(current_freq==l.head) countFreq(l.tail, current_freq,count+1)
+    else{
+      countFreq(l.tail,l.head,1)
+    }
+    countFreq(l.tail, current_freq,count)
   }
 
   //Calculates range of all elements in the list
