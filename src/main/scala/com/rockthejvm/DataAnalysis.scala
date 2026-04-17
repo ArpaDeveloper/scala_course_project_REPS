@@ -1,6 +1,9 @@
 package com.rockthejvm
 
+//Imports
 import scala.annotation.tailrec
+
+//Made by Aarni Viljanen
 
 object DataAnalysis {
 

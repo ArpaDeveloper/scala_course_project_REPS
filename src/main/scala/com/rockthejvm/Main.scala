@@ -3,6 +3,8 @@ package com.rockthejvm
 //Imports
 import scala.io.StdIn.readLine
 
+//Made by Aarni Viljanen
+
 object Main {
   def main(args: Array[String]):Unit={
     var loop=true
