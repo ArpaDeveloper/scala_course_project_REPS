@@ -8,18 +8,18 @@ import scala.annotation.tailrec
 object DataAnalysis {
 
   //Add error handling + some type stuff like prob can't have int on all
-
+  //Mode needs to be fixed
 
   //Calculates sum of all elements in the list
-  def sum(l:List[Int]):Int={
+  def sum(l:List[Double]):Double={
     if(l.isEmpty) 0
     else if(l.size==1) l.head
     else l.head+sum(l.tail)
   }
 
   //Sorts the list using Insertion sort
-  def insertionSort(l:List[Int]):List[Int]={
-    def insert(elem:Int,l:List[Int]):List[Int]=l match{
+  def insertionSort(l:List[Double]):List[Double]={
+    def insert(elem:Double,l:List[Double]):List[Double]=l match{
       //List is empty return elem
       case Nil=>List(elem)
       //Divide list to head and rest (tail)
@@ -40,7 +40,7 @@ object DataAnalysis {
 
 
   //Calculates mean of all elements in the list
-  def mean(l:List[Int]):Float={
+  def mean(l:List[Double]):Double={
     val s=sum(l)
     if(l.isEmpty) 0
     else s/l.size
@@ -48,7 +48,7 @@ object DataAnalysis {
 
   //Calculates median of all elements in the list
   @tailrec
-  def median(l:List[Int]):Float={
+  def median(l:List[Double]):Double={
     if(l.isEmpty) 0
     //Sort the list
     val sorted_l=insertionSort(l)
@@ -66,7 +66,7 @@ object DataAnalysis {
 
   //FIX MODE
   //Calculates mode of all elements in the list
-  def mode(l:List[Int]):Int={
+  def mode(l:List[Double]):Double={
     if(l.isEmpty) 0
     else {
       val sorted_l=insertionSort(l)
@@ -75,7 +75,7 @@ object DataAnalysis {
   }
 
   //Method to count freq of sorted list
-  def countFreq(l:List[Int],current_freq:Int,count:Int):Int={
+  def countFreq(l:List[Double],current_freq:Double,count:Int):Double={
     if(current_freq==l.head) countFreq(l.tail, current_freq,count+1)
     else{
       countFreq(l.tail,l.head,1)
@@ -84,7 +84,7 @@ object DataAnalysis {
   }
 
   //Calculates range of all elements in the list
-  def range(l:List[Int]):Int={
+  def range(l:List[Double]):Double={
     if(l.isEmpty) 0
     else {
       //Sort the list
@@ -97,7 +97,7 @@ object DataAnalysis {
   }
 
   //Calculates midrange of all elements in the list
-  def midrange(l:List[Int]):Int={
+  def midrange(l:List[Double]):Double={
     //Divide range by 2
     range(l)/2
   }
