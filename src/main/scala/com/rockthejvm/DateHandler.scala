@@ -7,6 +7,7 @@ import scala.io.StdIn.readLine
 
 //Made by Aarni Viljanen
 
+//Handles everything related to date chosen for the API call
 object DateHandler {
 
   //InputHandles users input choice regarding date

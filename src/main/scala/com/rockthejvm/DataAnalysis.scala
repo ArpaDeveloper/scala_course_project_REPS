@@ -5,12 +5,12 @@ import scala.annotation.tailrec
 
 //Made by Aarni Viljanen
 
+//HELP SOURCE: (This was used for all the rounding in all functions)
+//https://stackoverflow.com/questions/11106886/scala-doubles-and-precision
 object DataAnalysis {
 
-  //Add error handling + some type stuff like prob can't have int on all
-  //Mode needs to be fixed
-
   //Calculates sum of all elements in the list
+  //RETURN Sum
   def sum(l:List[Double]):Double={
     if(l.isEmpty) 0
     else if(l.size==1) l.head
@@ -18,6 +18,7 @@ object DataAnalysis {
   }
 
   //Sorts the list using Insertion sort
+  //RETURN Sorted List[Double]
   def insertionSort(l:List[Double]):List[Double]={
     def insert(elem:Double,l:List[Double]):List[Double]=l match{
       //List is empty return elem
@@ -40,13 +41,15 @@ object DataAnalysis {
 
 
   //Calculates mean of all elements in the list
+  //RETURN mean
   def mean(l:List[Double]):Double={
     val s=sum(l)
     if(l.isEmpty) 0
-    else s/l.size
+    else BigDecimal(s/l.size).setScale(2,BigDecimal.RoundingMode.HALF_UP).toDouble
   }
 
   //Calculates median of all elements in the list
+  //RETURN Median
   @tailrec
   def median(l:List[Double]):Double={
     if(l.isEmpty) 0
@@ -54,52 +57,89 @@ object DataAnalysis {
     val sorted_l=insertionSort(l)
     //If even average of the two numbers in middle
     if(l.size==1){ //If there is one return that
-      l.head
+      BigDecimal(l.head).setScale(2,BigDecimal.RoundingMode.HALF_UP).toDouble
     }
     else if(l.size==2){ //If there is two put them together and get avg
-      (l.head+l.last)/2
+      val avg=(l.head+l.last)/2
+      BigDecimal(avg).setScale(2,BigDecimal.RoundingMode.HALF_UP).toDouble
     }
     else{ //Recurse the list without first and last elements
       median(sorted_l.tail.init)
     }
   }
 
-  //FIX MODE
   //Calculates mode of all elements in the list
-  def mode(l:List[Double]):Double={
-    if(l.isEmpty) 0
+  //RETURN mode
+  def mode(l:List[Double]):List[Double]={
+    if(l.isEmpty) List(0)
     else {
+      //Sort the list & count frequencies
       val sorted_l=insertionSort(l)
-      countFreq(sorted_l,0,0)
+      val freq_l=countFreq(sorted_l)
+      //Find Mode
+      def findMax(l:List[(Double,Int)],max:Int,acc:List[(Double,Int)]):List[(Double,Int)]={
+        if(l.isEmpty) acc
+        else{
+          val (x,y)=l.head
+          if (y>max) {
+            //New mode is found reset list
+            findMax(l.tail,y,List((x,y)))
+          }
+          else if(y==max) {
+            //If its tie add it to list
+            findMax(l.tail,max,(x,y)::acc)
+          }
+          else {
+            //Recurse
+            findMax(l.tail,max,acc)
+          }
+        }
+      }
+      //Get mode
+      val mode=findMax(freq_l,0,Nil)
+      //Make it to list + round it up
+      mode.map{
+        case (x,_)=>
+        BigDecimal(x).setScale(2,BigDecimal.RoundingMode.HALF_UP).toDouble
+      }
     }
   }
 
   //Method to count freq of sorted list
-  def countFreq(l:List[Double],current_freq:Double,count:Int):Double={
-    if(current_freq==l.head) countFreq(l.tail, current_freq,count+1)
-    else{
-      countFreq(l.tail,l.head,1)
+  //RETURN List[(Value,valueCount),...]
+  def countFreq(l:List[Double]):List[(Double,Int)]=
+    l.foldLeft(List.empty[(Double,Int)]){
+      //Acc is empty First number (New number,Count=1)
+      case (Nil,x)=>
+        List((x,1))
+      //Value is same as last one (Number->Count+1)
+      case ((value,count)::rest,x)
+        if(value==x)=>
+        (value,count+1)::rest
+      //New number is encountered Acc(New number,Count=1)
+      case (acc,x)=>
+        (x,1)::acc
     }
-    countFreq(l.tail, current_freq,count)
-  }
 
   //Calculates range of all elements in the list
+  //RETURN range
   def range(l:List[Double]):Double={
     if(l.isEmpty) 0
     else {
       //Sort the list
-      var sorted_l=insertionSort(l)
+      val sorted_l = insertionSort(l)
       //Subtract max from min
       val min=sorted_l.head
       val max=sorted_l.last
-      max-min
+      BigDecimal(max-min).setScale(2,BigDecimal.RoundingMode.HALF_UP).toDouble
     }
   }
 
   //Calculates midrange of all elements in the list
+  //RETURN midrange
   def midrange(l:List[Double]):Double={
-    //Divide range by 2
-    range(l)/2
+    //Divide range by 2 + return rounded
+    BigDecimal(range(l)/2).setScale(2,BigDecimal.RoundingMode.HALF_UP).toDouble
   }
 
 }
