@@ -6,7 +6,7 @@ import sttp.client4._
 //Made by Aarni Viljanen
 
 //This file handles the API calls and structures data for Data analysis
-//CLAUDE was used to help with importing sttp.client4 (In build.sbt) & API call
+//CLAUDE was used to help with importing sttp.client4 (In build.sbt) & API call & jsonToList
 object Data {
 
   //HandleData validates the API call's params before calling getData
