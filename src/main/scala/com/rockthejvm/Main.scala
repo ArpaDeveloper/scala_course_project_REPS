@@ -20,35 +20,37 @@ object Main {
       var input=readLine()
       var choice=checkInput(input)
 
-      choice match {
+      choice match{
 
         //Get data from API
         case Some(1) =>
-          val inner_choice=innerChoice(1)
-          inner_choice match{ //Choose renewable Energy source
-            case Some(1)=> //Wind power
-              Data.getData(75) match {
-                case Left(data) =>
+          //Choose renewable energy source
+          val energySource=innerChoice(1)
+          //Print according to choice
+          energySource match{
+            case Some(1) => //Wind power (ID:75)
+              Data.handleData(75) match{
+                case Right(data)=>
                   println(s"Success getting wind power\n")
                   l=data
-                case Right(error) => println(error)
+                case Left(error)=>println(error+"\n")
               }
-            case Some(2)=> //Solar power
-              Data.getData(248) match {
-                case Left(data) =>
+            case Some(2) => //Solar power (ID:248)
+              Data.handleData(248) match{
+                case Right(data)=>
                   println(s"Success getting solar power\n")
                   l=data
-                case Right(error) => println(error)
+                case Left(error)=>println(error+"\n")
               }
-            case Some(3)=> //Water power
-              Data.getData(191) match {
-                case Left(data) =>
+            case Some(3) => //Water power (ID:191)
+              Data.handleData(191) match{
+                case Right(data)=>
                   println(s"Success getting water power\n")
                   l=data
-                case Right(error) => println(error)
+                case Left(error)=>println(error+"\n")
               }
             //Bad input
-            case _ => println("Not valid choice")
+            case _ => println("Not valid choice\n")
           }
 
         //Save Data to file
@@ -98,29 +100,28 @@ object Main {
         case _ => println("Not recognized input")
       }
     }
+  }
 
-    //Helper function for checking input
-    def checkInput(s:String):Option[Int]={
-      try{
-        Some(s.toInt)
-      }catch{
-        case _: Exception => None
-      }
+  //Helper function for checking input
+  def checkInput(s:String):Option[Int]={
+    try{
+      Some(s.toInt)
+    }catch{
+      case _: Exception => None
     }
+  }
 
-    //InnerChoice helper func
-    def innerChoice(c:Int):Option[Int]={
-      if(c==1){
-        println("Select energy source\n1.Wind power\n2.Solar power\n3.Water power")
-      }
-      else if(c==2){
-        println("Select operation\n1.Mean\n2.Median\n3.Mode\n4.Range\n5.Midrange")
-      }
-      println("Enter your choice:")
-      val input=readLine()
-      val choice = checkInput(input)
-      choice
+  //InnerChoice helper func
+  def innerChoice(c:Int):Option[Int]={
+    if(c==1){
+      println("Select energy source\n1.Wind power\n2.Solar power\n3.Water power")
     }
-
+    else if(c==2){
+      println("Select operation\n1.Mean\n2.Median\n3.Mode\n4.Range\n5.Midrange")
+    }
+    println("Enter your choice:")
+    val input=readLine()
+    val choice = checkInput(input)
+    choice
   }
 }
