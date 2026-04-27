@@ -3,7 +3,7 @@ package com.rockthejvm
 //Imports
 import scala.io.StdIn.readLine
 
-//Made by Aarni Viljanen
+//Made by Aarni Viljanen, Eeli Remes
 
 object Main {
   def main(args: Array[String]):Unit={
@@ -55,12 +55,23 @@ object Main {
 
         //Save Data to file
         case Some(2) => {
-          println("Save file")
+          if (l.isEmpty) {
+            println("No data to save. Please fetch data from the API first.\n")
+          } else {
+            FileHandler.saveData(l) match {
+              case Right(_) => println("Data successfully saved to file.\n")
+              case Left(error) => println(error + "\n")
+            }
+          }
         }
-
         //Get Data from file
         case Some(3) => {
-          println("Show file")
+          FileHandler.loadData() match {
+            case Right(data) =>
+              l = data // Update the local state `l` with data from the file
+              println(s"Successfully loaded ${l.size} values from file.\n")
+            case Left(error) => println(error + "\n")
+          }
         }
 
         //Data Analysis
