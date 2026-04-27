@@ -34,8 +34,8 @@ object Data {
   def getData(datasetID:Int,dateRange:List[String]):Either[String,List[Double]]={ //Add date in parameters
     val backend = DefaultSyncBackend()
 
-    //Set API-key locally with
-    val apiKey = ""
+    //Set API-key locally with (Do not commit)
+    val apiKey = "" // <- INSERT API KEY HERE
     //val datasetId = 75 //Wind power generated
     //val datasetId = 248 //Solar power
     //val datasetId = 191 //Water power
