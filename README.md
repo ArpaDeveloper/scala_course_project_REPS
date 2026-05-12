@@ -40,7 +40,11 @@ Option 5 closes the program.
        Compile
    *Loads all necessary depencies*
 
-3. Run Main.scala file in the editor.
+3. Use your own fingridAPI key.
+
+   *Add it to Data.Scala file*
+
+4. Run Main.scala file in the editor.
    
    *Starts the program. UI is in terminal.*
 
